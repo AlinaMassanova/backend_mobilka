@@ -14,6 +14,12 @@ class UserModel {
     const query = 'SELECT * FROM users WHERE email = $1;';
     return db.query(query, [email]);
   }
+
+  static async findById(id) {
+    const query = 'SELECT id, name, email FROM users WHERE id = $1;';
+    const result = await db.query(query, [id]);
+    return result.rows[0];
+  }
 }
 
 module.exports = UserModel;

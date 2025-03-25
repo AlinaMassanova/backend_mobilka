@@ -14,6 +14,11 @@ class TokenModel {
     return db.query(query, [userId]);
   }
 
+  static async findByToken(token) {
+    const query = 'SELECT * FROM tokens WHERE token = $1;';
+    return db.query(query, [token]);
+  }
+
   static async deleteToken(userId) {
     const query = 'DELETE FROM tokens WHERE user_id = $1;';
     return db.query(query, [userId]);
