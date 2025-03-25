@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const UserModel = require('../models/userModel');
-const TokenModel = require('../models/TokenModel');
+const TokenModel = require('../models/tokenModelokenModel');
 
 class AuthService {
   static async register(name, email, password) {
@@ -24,6 +24,9 @@ class AuthService {
 
       const user = result.rows[0];
       const isValid = await bcrypt.compare(password, user.password);
+      console.log('Введенный пароль:', password);
+      console.log('Хэш из базы:', user.password);
+
       if (!isValid) {
         throw new Error('Неверный email или пароль');
       }
