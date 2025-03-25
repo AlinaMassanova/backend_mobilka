@@ -14,8 +14,13 @@ class AuthController {
   static async login(req, res, next) {
     try {
       const { email, password } = req.body;
-      const result = await AuthService.login(email, password);
-      res.json({ message: 'Login successful', token: result.token });
+      const { userId, token } = await AuthService.login(email, password);
+      res.cookie('authToken', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'Strict',
+      });
+      res.json({ message: 'Login successful' });
     } catch (error) {
       next(error);
     }
