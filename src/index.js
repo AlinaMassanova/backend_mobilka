@@ -1,14 +1,20 @@
 require('dotenv').config();
-
 const express = require('express');
+const cookieParser = require('cookie-parser');
+const errorHandler = require('./middlewares/errorHandler');
 
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.get('/', (req, res) => {
   res.send('Backend is running');
 });
 
+app.use(errorHandler);
+
 const PORT = 3001;
-app.listen(PORT, '0.0.0.0', () => console.log(`Serving is running on ${PORT}`));
+app.listen(PORT, '0.0.0.0', () => console.log(`Server is running on ${PORT}`));
+
+module.exports = app;
