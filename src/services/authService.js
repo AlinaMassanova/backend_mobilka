@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
-const UserModel = require('../models/userModel');
-const TokenModel = require('../models/tokenModel');
+const UserModel = require('../models/UserModel');
+const TokenModel = require('../models/TokenModel');
 
 class AuthService {
   static async register(name, email, password) {
@@ -35,7 +35,7 @@ class AuthService {
       const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
       await TokenModel.createToken(user.id, token, expiresAt);
 
-      return { userId: user.id, token }; // Return the userId and token
+      return { userId: user.id, token };
     } catch (error) {
       console.error('Ошибка при входе:', error);
       throw new Error('Ошибка входа');

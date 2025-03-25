@@ -1,4 +1,4 @@
-const db = require('../utils/config');
+const db = require('../config/db');
 
 class TokenModel {
   static async createToken(userId, token, expiresAt) {
