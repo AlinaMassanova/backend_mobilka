@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const UserModel = require('../models/userModel');
-const TokenModel = require('../models/tokenModelokenModel');
+const TokenModel = require('../models/tokenModel');
 
 class AuthService {
   static async register(name, email, password) {
