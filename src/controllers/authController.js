@@ -2,6 +2,7 @@ const UserModel = require('../models/UserModel');
 const TokenModel = require('../models/TokenModel');
 const { registerSchema, loginSchema } = require('../validators/authValidator');
 const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 
 async function register(req, res) {
   try {
@@ -42,13 +43,15 @@ async function login(req, res) {
 
     const user = userResult.rows[0];
 
-    if (user.password !== password) {
+    // ✅ Сравнение пароля с использованием bcrypt
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
       return res.status(401).json({ error: 'Неверный email или пароль' });
     }
 
+    // ✅ Генерация токена и установка в cookies
     const token = crypto.randomBytes(64).toString('hex');
     await TokenModel.createToken(user.id, token);
-
     res.cookie('authToken', token, { httpOnly: true });
 
     res.status(200).json({ message: 'Вход выполнен' });

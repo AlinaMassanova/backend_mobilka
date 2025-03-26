@@ -1,7 +1,7 @@
 const db = require('../config/db');
 
 class TokenModel {
-  static async createToken(userId, token, expiresAt) {
+  static async createToken(userId, token, expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)) {
     const query = `
       INSERT INTO tokens (user_id, token, expires_at)
       VALUES ($1, $2, $3);
