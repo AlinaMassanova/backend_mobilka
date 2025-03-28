@@ -3,6 +3,7 @@ const TokenModel = require('../models/TokenModel');
 const { registerSchema, loginSchema } = require('../validators/authValidator');
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
+const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); 
 
 async function register(req, res) {
   try {
@@ -18,7 +19,7 @@ async function register(req, res) {
       return res.status(400).json({ error: 'Пользователь с таким email уже существует' });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await UserModel.createUser(name, email, password);
+    const newUser = await UserModel.createUser(name, email, hashedPassword);
 
     res.status(201).json({ message: 'Пользователь успешно зарегистрирован', user: newUser.rows[0] });
   } catch (error) {
@@ -51,8 +52,8 @@ async function login(req, res) {
 
     // ✅ Генерация токена и установка в cookies
     const token = crypto.randomBytes(64).toString('hex');
-    await TokenModel.createToken(user.id, token);
-    res.cookie('authToken', token, { httpOnly: true });
+    await TokenModel.createToken(user.id, token, expiresAt);
+    res.cookie('authToken', token, { httpOnly: true, sameSite: "None", secure: true });
 
     res.status(200).json({ message: 'Вход выполнен' });
   } catch (error) {
