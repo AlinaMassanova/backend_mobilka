@@ -17,7 +17,7 @@ async function register(req, res) {
     if (existingUser.rows.length) {
       return res.status(400).json({ error: 'Пользователь с таким email уже существует' });
     }
-
+    const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await UserModel.createUser(name, email, password);
 
     res.status(201).json({ message: 'Пользователь успешно зарегистрирован', user: newUser.rows[0] });
