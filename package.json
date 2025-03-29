@@ -1,11 +1,11 @@
 {
   "name": "habit-tracker_backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/app.js",
-    "dev": "nodemon"
+    "dev": "nodemon --exec node src/app.js"
   },
   "keywords": [],
   "author": "",

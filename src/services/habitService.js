@@ -17,7 +17,7 @@ class HabitService {
       habits.rows.map(async (habit) => {
         const ticks = await HabitModel.getTicks(habit.id);
         return { ...habit, ticks: ticks.rows };
-      })
+      }),
     );
 
     return habitsWithTicks;

@@ -12,7 +12,6 @@ async function authMiddleware(req, res, next) {
       return res.status(401).json({ error: 'Не авторизован: недействительный токен' });
     }
 
-    // Add expiration check
     const tokenData = result.rows[0];
     if (new Date(tokenData.expires_at) < new Date()) {
       console.log(`Token expired at: ${tokenData.expires_at}`);
@@ -20,10 +19,10 @@ async function authMiddleware(req, res, next) {
     }
 
     req.userId = tokenData.user_id;
-    next();
+    return next();
   } catch (error) {
     console.error('Ошибка проверки авторизации:', error);
-    res.status(500).json({ error: 'Внутренняя ошибка сервера' });
+    return res.status(500).json({ error: 'Внутренняя ошибка сервера' });
   }
 }
 
