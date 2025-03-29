@@ -1,5 +1,5 @@
 const express = require('express');
-const habitController = require('../controllers/habitsController');
+const habitController = require('../controllers/habitController');
 const habitService = require('../services/habitService');
 const authMiddleware = require('../middlewares/authMiddleware'); 
 const router = express.Router();
