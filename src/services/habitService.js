@@ -24,18 +24,22 @@ class HabitService {
   }
 
   static async addDefaultHabits(userId) {
+    console.log('\n[DEBUG] Starting addDefaultHabits for user:', userId);
+
     const defaultHabits = [
-      { name: 'Fitness', color: '#f8c8dc' },
-      { name: 'Reading', color: '#f5d0c8' },
-      { name: 'Meditation', color: '#f0e6ef' },
-      { name: 'Hydration', color: '#e6f0c2' },
-      { name: 'Relaxation', color: '#d8e2dc' },
-      { name: 'Coding', color: '#c8e6bf' },
-      { name: 'Yoga', color: '#b5e4fa' },
-      { name: 'Music', color: '#a7c7e7' },
-      { name: 'Study', color: '#d0bfff' },
-      { name: 'Walking', color: '#e9c4ef' },
+      { name: 'Fitness', color: '#f8c8dc', imageUrl: '/public/default-habit-images/fitness.svg' },
+      { name: 'Reading', color: '#f5d0c8', imageUrl: '/public/default-habit-images/reading.svg' },
+      { name: 'Meditation', color: '#f0e6ef', imageUrl: '/public/default-habit-images/meditation.svg' },
+      { name: 'Hydration', color: '#e6f0c2', imageUrl: '/public/default-habit-images/hydration.svg' },
+      { name: 'Relaxation', color: '#d8e2dc', imageUrl: '/public/default-habit-images/relaxation.svg' },
+      { name: 'Coding', color: '#c8e6bf', imageUrl: '/public/default-habit-images/coding.svg' },
+      { name: 'Yoga', color: '#b5e4fa', imageUrl: '/public/default-habit-images/yoga.svg' },
+      { name: 'Music', color: '#a7c7e7', imageUrl: '/public/default-habit-images/music.svg' },
+      { name: 'Study', color: '#d0bfff', imageUrl: '/public/default-habit-images/study.svg' },
+      { name: 'Walking', color: '#e9c4ef', imageUrl: '/public/default-habit-images/walking.svg' },
     ];
+    console.log('[DEBUG] Default habits data:', JSON.stringify(defaultHabits, null, 2));
+
 
     for (const habit of defaultHabits) {
       await HabitModel.create(userId, habit);

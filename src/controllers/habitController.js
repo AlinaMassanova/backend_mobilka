@@ -3,15 +3,16 @@ const HabitService = require('../services/habitService');
 
 class HabitController {
   static async create(req, res) {
-    const { error: validationError } = createSchema.validate(req.body);
-    if (validationError) {
-      return res.status(400).json({
-        error: validationError.details[0].message,
-      });
-    }
+    const { error } = createSchema.validate(req.body);
+    if (error) return res.status(400).json({ error: error.details[0].message });
 
     try {
-      const habit = await HabitService.createHabit(req.userId, req.body);
+      const habitData = {
+        ...req.body,
+        imageUrl: req.file ? `/public/habit-images/${req.file.filename}` : null,
+      };
+
+      const habit = await HabitService.createHabit(req.userId, habitData);
       return res.status(201).json(habit.rows[0]);
     } catch (err) {
       return res.status(500).json({ error: err.message });

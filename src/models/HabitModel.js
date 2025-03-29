@@ -2,6 +2,12 @@ const db = require('../config/db');
 
 class HabitModel {
   static async create(userId, { name, color, imageUrl = null }) {
+    console.log('\n[DEBUG] HabitModel.create() received:', {
+      userId,
+      name,
+      color,
+      imageUrl,
+    });
     const query = `
       INSERT INTO habits (user_id, name, color, image_url)
       VALUES ($1, $2, $3, $4)

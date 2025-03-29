@@ -16,6 +16,7 @@ app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/', testRoutes);
 app.use('/habits', habitRoutes);
+app.use('/public', express.static('public'));
 
 app.use(errorHandler);
 
