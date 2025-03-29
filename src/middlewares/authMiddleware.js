@@ -12,7 +12,14 @@ async function authMiddleware(req, res, next) {
       return res.status(401).json({ error: 'Не авторизован: недействительный токен' });
     }
 
-    req.userId = result.rows[0].user_id;
+    // Add expiration check
+    const tokenData = result.rows[0];
+    if (new Date(tokenData.expires_at) < new Date()) {
+      console.log(`Token expired at: ${tokenData.expires_at}`);
+      return res.status(401).json({ error: 'Токен просрочен' });
+    }
+
+    req.userId = tokenData.user_id;
     next();
   } catch (error) {
     console.error('Ошибка проверки авторизации:', error);
