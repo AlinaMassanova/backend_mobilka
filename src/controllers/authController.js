@@ -72,4 +72,27 @@ async function login(req, res) {
   }
 }
 
-module.exports = { register, login };
+async function logout(req, res) {
+  try {
+    const token = req.cookies?.authToken;
+    if (!token) {
+      return res.status(400).json({ error: 'Токен отсутствует' });
+    }
+
+    await TokenModel.deleteToken(token);
+
+    res.clearCookie('authToken', {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'None',
+    });
+
+    return res.status(200).json({ message: 'Выход выполнен' });
+  } catch (error) {
+    console.error('Ошибка при выходе:', error);
+    return res.status(500).json({ error: 'Ошибка сервера' });
+  }
+}
+
+module.exports = { register, login, logout };
+

@@ -19,9 +19,16 @@ class TokenModel {
     return db.query(query, [token]);
   }
 
-  static async deleteToken(userId) {
-    const query = 'DELETE FROM tokens WHERE user_id = $1;';
-    return db.query(query, [userId]);
+
+  static async deleteToken(token) {
+    try {
+      const query = 'DELETE FROM tokens WHERE token = $1 RETURNING *';
+      const result = await db.query(query, [token]);
+      return result.rows[0];
+    } catch (error) {
+      console.error('Error deleting token:', error);
+      throw error;
+    }
   }
 }
 
