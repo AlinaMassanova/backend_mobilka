@@ -16,4 +16,6 @@ router.get('/', authMiddleware, HabitController.getAll);
 
 router.post('/:habitId/ticks/:date', authMiddleware, HabitController.toggleTick);
 
+router.delete('/:id', authMiddleware, HabitController.delete);
+
 module.exports = router;

@@ -1,3 +1,4 @@
+const db = require('../config/db');
 const HabitModel = require('../models/HabitModel');
 
 class HabitService {
@@ -48,6 +49,17 @@ class HabitService {
 
   static async toggleTick(habitId, date) {
     return HabitModel.setTick(habitId, date);
+  }
+
+  static async softDeleteHabit(habitId, userId) {
+    const query = `
+      UPDATE habits 
+      SET is_deleted = TRUE 
+      WHERE id = $1 AND user_id = $2
+      RETURNING *`;
+
+    const result = await db.query(query, [habitId, userId]);
+    return result.rows[0];
   }
 }
 
