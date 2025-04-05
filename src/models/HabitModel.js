@@ -56,6 +56,13 @@ class HabitModel {
     const query = 'SELECT * FROM habit_ticks WHERE habit_id = $1';
     return db.query(query, [habitId]);
   }
+
+  static async getHabitsForGoals(userId) {
+    const query = `
+      SELECT id, name FROM habits 
+      WHERE user_id = $1 AND is_deleted = FALSE`;
+    return db.query(query, [userId]);
+  }
 }
 
 module.exports = HabitModel;
