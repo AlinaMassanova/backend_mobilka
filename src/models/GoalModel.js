@@ -11,11 +11,24 @@ class GoalModel {
 
   static async getActive(userId) {
     const query = `
-      SELECT * FROM goals 
-      WHERE user_id = $1 AND is_active = TRUE
-      ORDER BY created_at DESC`;
+      SELECT 
+        g.id,
+        g.user_id,
+        g.habit_id,
+        g.start_date,
+        g.end_date,
+        g.target_count,
+        g.current_count,
+        g.is_active,
+        g.created_at,
+        row_to_json(h) AS habit
+      FROM goals g
+      JOIN habits h ON g.habit_id = h.id
+      WHERE g.user_id = $1 AND g.is_active = TRUE
+      ORDER BY g.created_at DESC
+    `;
     return db.query(query, [userId]);
-  }
+  }  
 
   static async updateTick(goalId) {
     const query = `
